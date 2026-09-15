@@ -34,7 +34,30 @@ def find_longest_lexicographically_first_word(text: str) -> str:
     If |text| is empty, you may return an empty string.
     """
     # BEGIN_YOUR_CODE
-    raise Exception("Not implemented yet")
+    text += " "
+
+    maxLength = 0
+    curLength = 0
+    maxText = ""
+    curText = ""
+
+    for i in range(len(text)):        
+        if(text[i] == " "):
+            if(curLength > maxLength):
+                maxLength = curLength
+                maxText = curText
+            
+            elif(curLength == maxLength):
+                if(maxLength > curLength):
+                    maxText = curText  
+            curLength = 0
+            curText = ""
+
+        else:
+            curLength += 1
+            curText += text[i]
+
+    return maxText
     # END_YOUR_CODE
 
 ############################################################
