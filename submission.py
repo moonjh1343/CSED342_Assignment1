@@ -99,18 +99,51 @@ def mutate_sentences(sentence: str) -> List[str]:
                 (Reordered versions of this list are allowed.)
     """
     # BEGIN_YOUR_CODE (our solution is 20 lines of code, but don't worry if you deviate from this)
-    wordList = []
-    adjDict = DefaultDict(str)
     sentence += " "
     curWord = ""
+    wordList = []
+    wordLen = 0;
 
     for i in range(len(sentence)):
         if(sentence[i] == " "):
             wordList.append(curWord)
-            if(wordList.count() > 1)
+            curWord = ""
+            wordLen += 1
         else:
             curWord += sentence[i]
-    
+
+    graph = DefaultDict(list)
+    visited = [0]
+
+    for i in range(len(wordList)-1):
+        graph[wordList[i]].append(wordList[i+1])
+        visited.append(0)
+
+    startWord = wordList[0]
+    endWord = wordList[-1]
+    textList = []
+
+    result = set()
+
+    def backtrack(length, last):
+        if(length == wordLen and last == endWord):
+            temp = textList[0]
+            for i in range(1, length):
+                temp += " "
+                temp += textList[i]
+            result.add(temp)
+
+        if(length < wordLen):
+            for item in graph[last]:
+                textList.append(item)
+                backtrack(length+1, item)
+                textList.pop()
+
+    textList.append(startWord)
+    backtrack(1, startWord)
+
+    return(list(result))    
+
     # END_YOUR_CODE
 
 
