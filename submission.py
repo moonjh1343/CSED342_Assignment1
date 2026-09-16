@@ -48,7 +48,7 @@ def find_longest_lexicographically_first_word(text: str) -> str:
                 maxText = curText
             
             elif(curLength == maxLength):
-                if(maxLength > curLength):
+                if(maxText > curText):
                     maxText = curText  
             curLength = 0
             curText = ""
