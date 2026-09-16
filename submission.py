@@ -99,6 +99,18 @@ def mutate_sentences(sentence: str) -> List[str]:
                 (Reordered versions of this list are allowed.)
     """
     # BEGIN_YOUR_CODE (our solution is 20 lines of code, but don't worry if you deviate from this)
+    wordList = []
+    adjDict = DefaultDict(str)
+    sentence += " "
+    curWord = ""
+
+    for i in range(len(sentence)):
+        if(sentence[i] == " "):
+            wordList.append(curWord)
+            if(wordList.count() > 1)
+        else:
+            curWord += sentence[i]
+    
     # END_YOUR_CODE
 
 
@@ -116,7 +128,7 @@ def sparse_vector_dot_product(v1: SparseVector, v2: SparseVector) -> float:
     Note: A sparse vector has most of its entries as 0.
     """
     # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
-    result = 0;
+    result = 0
     for key, value in v2.items():
         result += v1[key]*value
     return result
@@ -156,5 +168,26 @@ def find_most_frequent_words(text: str) -> Set[str]:
     You might find it useful to use collections.defaultdict(int).
     """
     # BEGIN_YOUR_CODE (our solution is 7 lines of code, but don't worry if you deviate from this)
-    raise Exception("Not implemented yet")
+    if(text == ""):
+        return set()
+    wordDict = DefaultDict(int)
+    text += " "
+    curWord = ""
+    maxf = 0
+
+    for i in range(len(text)):
+        if(text[i] == " "):
+            wordDict[curWord] += 1
+            if(maxf < wordDict[curWord]):
+                maxf = wordDict[curWord]
+            curWord = ""
+        else:
+            curWord += text[i]
+
+    rtnSet = set()
+    for key, val in wordDict.items():
+        if(maxf == val):
+            rtnSet.add(key)
+
+    return rtnSet
     # END_YOUR_CODE
