@@ -34,28 +34,18 @@ def find_longest_lexicographically_first_word(text: str) -> str:
     If |text| is empty, you may return an empty string.
     """
     # BEGIN_YOUR_CODE
-    text += " "
-
     maxLength = 0
-    curLength = 0
     maxText = ""
-    curText = ""
 
-    for i in range(len(text)):        
-        if(text[i] == " "):
-            if(curLength > maxLength):
-                maxLength = curLength
-                maxText = curText
-            
-            elif(curLength == maxLength):
-                if(maxText > curText):
-                    maxText = curText  
-            curLength = 0
-            curText = ""
+    splitWord = text.split()
 
-        else:
-            curLength += 1
-            curText += text[i]
+    for i in splitWord:
+        if(maxLength < len(i)):
+            maxLength = len(i)
+            maxText = i
+        elif(maxLength == len(i)):
+            if(maxText > i):
+                maxText = i
 
     return maxText
     # END_YOUR_CODE
@@ -99,25 +89,16 @@ def mutate_sentences(sentence: str) -> List[str]:
                 (Reordered versions of this list are allowed.)
     """
     # BEGIN_YOUR_CODE (our solution is 20 lines of code, but don't worry if you deviate from this)
-    sentence += " "
-    curWord = ""
-    wordList = []
-    wordLen = 0;
+    wordList = sentence.split()
+    wordLen = len(wordList)
 
-    for i in range(len(sentence)):
-        if(sentence[i] == " "):
-            wordList.append(curWord)
-            curWord = ""
-            wordLen += 1
-        else:
-            curWord += sentence[i]
+    if(wordLen == 0):
+        return []
 
-    graph = DefaultDict(list)
-    visited = [0]
+    graph = DefaultDict(set)
 
     for i in range(len(wordList)-1):
-        graph[wordList[i]].append(wordList[i+1])
-        visited.append(0)
+        graph[wordList[i]].add(wordList[i+1])
 
     startWord = wordList[0]
     endWord = wordList[-1]
@@ -134,7 +115,7 @@ def mutate_sentences(sentence: str) -> List[str]:
             result.add(temp)
 
         if(length < wordLen):
-            for item in graph[last]:
+            for item in list(graph[last]):
                 textList.append(item)
                 backtrack(length+1, item)
                 textList.pop()
@@ -204,18 +185,14 @@ def find_most_frequent_words(text: str) -> Set[str]:
     if(text == ""):
         return set()
     wordDict = DefaultDict(int)
-    text += " "
-    curWord = ""
     maxf = 0
 
-    for i in range(len(text)):
-        if(text[i] == " "):
-            wordDict[curWord] += 1
-            if(maxf < wordDict[curWord]):
-                maxf = wordDict[curWord]
-            curWord = ""
-        else:
-            curWord += text[i]
+    splitWord = text.split()
+    
+    for i in splitWord:
+        wordDict[i] += 1
+        if(maxf < wordDict[i]):
+            maxf = wordDict[i]
 
     rtnSet = set()
     for key, val in wordDict.items():
